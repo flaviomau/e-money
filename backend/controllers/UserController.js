@@ -17,16 +17,6 @@ class UserController{
     return data
   }
   
-  async getHash(password){
-    try {
-      const salt = await bcrypt.genSalt(5)
-      return await bcrypt.hash(password, salt)
-    }
-    catch (e) {
-      return null
-    }
-  }
-  
   readAll(request, response, next) {
     this.model.find({})
       .then(function (data) {
@@ -46,20 +36,9 @@ class UserController{
   }
   
   create(request, response, next) {
-    const user = {
-      'username': request.body.username,
-      'type': request.body.type,
-      'status': this.model.STATUS.ENABLE
-    }
-  
-    this.getHash(request.body.password)
-      .then(password => {
-        if (password)
-          user['password'] = password
-        return true
-      }).then(() => {
-        return this.model.create(user)
-      }).then(data => {
+    const {user} = request.body
+    this.model.create(user)
+      .then(data => {
         response.json(data)
       }).catch(error => {
         next(error)
@@ -68,21 +47,7 @@ class UserController{
   
   update(request, response, next) {
     const _id = request.params._id
-    const user = {
-      'username': request.body.username,
-      'type': request.body.type,
-      'status': request.body.status
-    }
-  
-    if (request.body.password) {
-      bcrypt.genSalt(5, function (err, salt) {
-        if (err) return next(err)
-        bcrypt.hash(request.body.password, salt, null, function (err, hash) {
-          if (err) return next(err)
-          user['password'] = hash
-        })
-      })
-    }
+    const {user} = request.body
   
     this.model.update(_id, user)
       .then(function (data) {

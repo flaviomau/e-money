@@ -1,13 +1,14 @@
 const IDb = require('../base/interfaceDB')
 const Sequelize = require('sequelize')
 const User = require('./entities/user')
+const Customer = require('./entities/customer')
 
 class PostgreSQLStrategy extends IDb {
   constructor() {
     super()
     this._sequelize = null
     this.model = {
-      'users': null,
+      'user': null,
       'customer': null,
       'store': null,
       'wallet': null,
@@ -19,13 +20,18 @@ class PostgreSQLStrategy extends IDb {
     console.log("POSTGRESQL_STRATEGY::INTERNAL_ERROR: ", error)
   }
 
+  notFound(entity){
+    throw new Error('model not foud: ' + entity)
+  }
+
   async defineModel() {
-    this.model.users = new User(this._sequelize)
+    this.model.user = new User(this._sequelize)
+    this.model.customer = new Customer(this._sequelize, this.model.user)
   }
 
   async connect() {
     this._sequelize = new Sequelize(
-      'mmldata',      //database
+      'emoney',      //database
       'mmlserver',    // user
       'mml20022019',  //senha
       {
@@ -52,48 +58,45 @@ class PostgreSQLStrategy extends IDb {
 
   async create(entity, item) {
     try {
-
       if (this.model[entity])
-        return this.model[entity].create(item)
+        return await this.model[entity].create(item)
       else
-        return null
+        this.notFound(entity)
     } catch (error) {
       this.logError(error)
-      return null
+      throw new Error(error)
     }
   }
 
   async read(entity, item) {
     try {
-      if (this.model[entity]) {
-        return this.model[entity].read(item)
-      }
+      if (this.model[entity])
+        return await this.model[entity].read(item)  
       else
-        return null
+        this.notFound(entity)
     } catch (error) {
       this.logError(error)
-      return null
+      throw new Error(error)
     }
   }
 
   async update(entity, id, item) {
     try {
       if (this.model[entity])
-        return this.model[entity].update(id, item)
+        return await this.model[entity].update(id, item)    
       else
-        return null
+        this.notFound(entity)
     } catch (error) {
       this.logError(error)
-      return null
+      throw new Error(error)
     }
   }
 
   async delete(entity, id) {
-    const query = id ? id : {}
     if (this.model[entity])
-      return this.model[entity].delete(id)
+      return await this.model[entity].delete(id)
     else
-      return null
+      this.notFound(entity)
   }
 }
 

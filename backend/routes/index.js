@@ -8,13 +8,16 @@ const contextDatabase = new context(new postgres())
 contextDatabase.connect()
 
 const UserModel   = require('../models/UserModel')
+const CustomerModel   = require('../models/CustomerModel')
 
 router.get('/', function (request, response) {
-  response.send('Smart Jirau API');
-});
+  response.send('E-Money API')
+})
 
 const users = require('./users')
+const customers = require('./customers')
 
 router.use('/users', users(new UserModel(contextDatabase)))
+router.use('/customers', customers(new CustomerModel(contextDatabase)))
 
-module.exports = router;
+module.exports = router

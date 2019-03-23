@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">E-Money App</string>
+    <string name="show_balance">Show Balance</string>
+    <string name="pay_order">Pay order</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+</resources>

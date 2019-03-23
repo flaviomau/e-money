@@ -1,0 +1,38 @@
+{
+  "name": "e-money-server",
+  "version": "1.0.0",
+  "description": "server to handle the e-money operation (transactions between customers and stores).",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "nodemon": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flaviomau/e-money.git"
+  },
+  "keywords": [
+    "money",
+    "retail",
+    "share",
+    "payment",
+    "online"
+  ],
+  "author": "Flavio Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flaviomau/e-money/issues"
+  },
+  "homepage": "https://github.com/flaviomau/e-money#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.5",
+    "config": "^3.0.1",
+    "express": "^4.16.4",
+    "jwt-simple": "^0.5.5",
+    "method-override": "^3.0.0",
+    "moment": "^2.24.0",
+    "pg": "^7.9.0",
+    "sequelize": "^5.1.1"
+  }
+}

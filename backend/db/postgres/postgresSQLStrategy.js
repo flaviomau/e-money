@@ -2,6 +2,7 @@ const IDb = require('../base/interfaceDB')
 const Sequelize = require('sequelize')
 const User = require('./entities/user')
 const Customer = require('./entities/customer')
+const Store = require('./entities/store')
 
 class PostgreSQLStrategy extends IDb {
   constructor() {
@@ -21,19 +22,20 @@ class PostgreSQLStrategy extends IDb {
   }
 
   notFound(entity){
-    throw new Error('model not foud: ' + entity)
+    throw new Error('model not foud (' + entity + ')')
   }
 
   async defineModel() {
     this.model.user = new User(this._sequelize)
     this.model.customer = new Customer(this._sequelize, this.model.user)
+    this.model.store = new Store(this._sequelize, this.model.user)
   }
 
   async connect() {
     this._sequelize = new Sequelize(
       'emoney',      //database
       'mmlserver',    // user
-      'mml20022019',  //senha
+      'mml20022019',  //password
       {
         host: 'localhost',
         dialect: 'postgres',

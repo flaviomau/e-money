@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-class customer {
+class store {
   constructor(sequelize, user) {
     this.sequelize = sequelize
     this.user = user
@@ -10,14 +10,14 @@ class customer {
   }
 
   logError(error){
-    console.log("CUSTOMER_ENTITY::INTERNAL_ERROR: ", error)
+    console.log("STORE_ENTITY::INTERNAL_ERROR: ", error)
   }
 
   defineModel() {
     return this.sequelize.define(
-      'customer',
+      'store',
       {
-        id_customer: {
+        id_store: {
           type: Sequelize.INTEGER,
           required: true,
           primaryKey: true,
@@ -33,7 +33,7 @@ class customer {
         },
       },
       {
-        modelName: 'customer',
+        modelName: 'store',
         freezemodelName: false,
         timestamps: false,
       },
@@ -43,7 +43,7 @@ class customer {
   async create(item) {
     try {
       const { user } = item
-      user.type = this.user.TYPE.CUSTOMER
+      user.type = this.user.TYPE.STORE
       return this.user.create(user)
         .then(u => {
           item['id_user'] = u.id_user
@@ -68,20 +68,20 @@ class customer {
     }
   }
 
-  async update(id_customer, item) {
+  async update(id_store, item) {
     try {
       const { user } = item
       await this.user.update(user.id_user, user)
-      return await this.model.update(item, { where: { id_customer }, raw: true })
+      return await this.model.update(item, { where: { id_store }, raw: true })
     } catch (error) {
       this.logError(error)
       return null
     }
   }
 
-  async delete(id_customer) {
-    return await this.model.destroy({ where: {id_customer} })
+  async delete(id_store) {
+    return await this.model.destroy({ where: {id_store} })
   }
 }
 
-module.exports = customer
+module.exports = store

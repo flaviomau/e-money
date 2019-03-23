@@ -83,7 +83,7 @@ class UserController{
           if (isMatch) {
             const expires = moment().add(7, 'days').valueOf()
             const token = jwt.encode({
-              _id: data._id,
+              id_user: data.id_user,
               username: username,
               type: data.type,
               expires: expires

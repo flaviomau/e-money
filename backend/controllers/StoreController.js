@@ -33,7 +33,7 @@ class StoreController {
 
   readByUserId(request, response, next) {
     const query = { 'id_user': request.params._id || null }
-    this.model.find(query)
+    this.model.findOne(query)
       .then(this.handleNotFound)
       .then(function (data) {
         response.json(data)

@@ -33,7 +33,7 @@ class TransactionController {
   
     readBytransactionId(request, response, next) {
       const query = { 'id_transaction': request.params._id || null }
-      this.model.find(query)
+      this.model.findOne(query)
         .then(this.handleNotFound)
         .then(function (data) {
           response.json(data)
@@ -43,7 +43,7 @@ class TransactionController {
 
     readByWalletId(request, response, next) {
         const query = { 'id_wallet': request.params._id || null }
-        this.model.find(query)
+        this.model.findOne(query)
           .then(this.handleNotFound)
           .then(function (data) {
             response.json(data)
@@ -53,7 +53,7 @@ class TransactionController {
 
     readByStoreId(request, response, next) {
         const query = { 'id_store': request.params._id || null }
-        this.model.find(query)
+        this.model.findOne(query)
           .then(this.handleNotFound)
           .then(function (data) {
             response.json(data)

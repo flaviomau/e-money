@@ -39,34 +39,20 @@ class wallet {
   }
 
   async create(item) {
-    try {
-      item['balance'] = 0
-      return await this.model.create(item)
-    } catch (error) {
-      this.logError(error)
-      return null
-    }
+
+    item['balance'] = 0
+    return await this.model.create(item)
   }
 
   async read(item) {
-    try {
-      return this.model.findAll({
-        where: item,
-        raw: false
-      })
-    } catch (error) {
-      this.logError(error)
-      return null
-    }
+    return this.model.findAll({
+      where: item,
+      raw: false
+    })
   }
 
   async update(id_wallet, item) {
-    try {
-      return await this.model.update(item, { where: { id_wallet }, raw: true })
-    } catch (error) {
-      this.logError(error)
-      return null
-    }
+    return await this.model.update(item, { where: { id_wallet }, raw: true })
   }
 
   async delete(id_wallet) {

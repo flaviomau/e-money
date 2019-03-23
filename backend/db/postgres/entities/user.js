@@ -49,45 +49,25 @@ class User {
     )
   }
 
-  async getHash(password){
-    try {
-      const salt = await bcrypt.genSalt(5)
-      return await bcrypt.hash(password, salt)
-    }
-    catch (e) {
-      return null
-    }
+  async getHash(password) {
+    const salt = await bcrypt.genSalt(5)
+    return await bcrypt.hash(password, salt)
   }
 
   async create(item) {
-    try {
-      item.password = await this.getHash(item.password)
-      return this.model.create(item)
-    } catch (error) {
-      this.logError(error)
-      return null
-    }
+    item.password = await this.getHash(item.password)
+    return this.model.create(item)
   }
 
   async read(item) {
-    try {
-      return this.model.findAll({ where: item, raw: true })
-    } catch (error) {
-      this.logError(error)
-      return null
-    }
+    return this.model.findAll({ where: item, raw: true })
   }
 
   async update(id_user, item) {
-    try {
-      if(item.password){
-        item.password = await this.getHash(item.password)
-      }
-      return this.model.update(item, { where: { id_user }, raw: true })
-    } catch (error) {
-      this.logError(error)
-      return null
+    if (item.password) {
+      item.password = await this.getHash(item.password)
     }
+    return this.model.update(item, { where: { id_user }, raw: true })
   }
 
   async delete(id_user) {

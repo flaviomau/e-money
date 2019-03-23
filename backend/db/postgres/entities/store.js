@@ -9,7 +9,7 @@ class store {
     this.model.sync()
   }
 
-  logError(error){
+  logError(error) {
     console.log("STORE_ENTITY::INTERNAL_ERROR: ", error)
   }
 
@@ -41,46 +41,31 @@ class store {
   }
 
   async create(item) {
-    try {
-      const { user } = item
-      user.type = this.user.TYPE.STORE
-      return this.user.create(user)
-        .then(u => {
-          item['id_user'] = u.id_user
-          return this.model.create(item)
-        })
-    } catch (error) {
-      this.logError(error)
-      return null
-    }
+    const { user } = item
+    user.type = this.user.TYPE.STORE
+    return this.user.create(user)
+      .then(u => {
+        item['id_user'] = u.id_user
+        return this.model.create(item)
+      })
   }
 
   async read(item) {
-    try {
-      return this.model.findAll({
-        where: item,
-        raw: false,
-        include: [{ model: this.user.model, attributes: { exclude: ["password"] } }]
-      })
-    } catch (error) {
-      this.logError(error)
-      return null
-    }
+    return this.model.findAll({
+      where: item,
+      raw: false,
+      include: [{ model: this.user.model, attributes: { exclude: ["password"] } }]
+    })
   }
 
   async update(id_store, item) {
-    try {
-      const { user } = item
-      await this.user.update(user.id_user, user)
-      return await this.model.update(item, { where: { id_store }, raw: true })
-    } catch (error) {
-      this.logError(error)
-      return null
-    }
+    const { user } = item
+    await this.user.update(user.id_user, user)
+    return await this.model.update(item, { where: { id_store }, raw: true })
   }
 
   async delete(id_store) {
-    return await this.model.destroy({ where: {id_store} })
+    return await this.model.destroy({ where: { id_store } })
   }
 }
 

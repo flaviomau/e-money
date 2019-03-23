@@ -3,6 +3,7 @@ const Sequelize = require('sequelize')
 const User = require('./entities/user')
 const Customer = require('./entities/customer')
 const Store = require('./entities/store')
+const Wallet = require('./entities/wallet')
 
 class PostgreSQLStrategy extends IDb {
   constructor() {
@@ -27,6 +28,7 @@ class PostgreSQLStrategy extends IDb {
 
   async defineModel() {
     this.model.user = new User(this._sequelize)
+    this.model.wallet = new Wallet(this._sequelize)
     this.model.customer = new Customer(this._sequelize, this.model.user)
     this.model.store = new Store(this._sequelize, this.model.user)
   }

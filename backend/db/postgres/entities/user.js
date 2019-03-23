@@ -71,7 +71,7 @@ class User {
 
   async read(item) {
     try {
-      return this.model.findAll({ where: item, raw: true });
+      return this.model.findAll({ where: item, raw: true })
     } catch (error) {
       this.logError(error)
       return null
